@@ -86,6 +86,10 @@ a:hover {
 	opacity: 1;
 }
 
+#header {
+	margin-bottom: 40px;
+}
+
 #hlogo {
 	padding: 10px 30px 0 0;
 	text-align: right;
@@ -103,4 +107,71 @@ a:hover {
 
 #top-links {
 	padding-left: 50px;
+}
+
+#settings-link {
+	cursor: pointer;
+}
+
+#viewwrap {
+	height: 81vh;
+	background-color: #fff;
+	border-radius: 0 0 15px 15px;
+	position: relative;
+}
+
+.views {
+	transform: scale(1.0);
+	opacity: 1.0;
+	transition: 1s all ease-in-out;
+}
+
+#new-item-btn {
+	float: right;
+	margin: 10px 50px;
+	padding: 7px 20px;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #65A443;
+	border: 2px solid #65A443;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+#new-item-btn:hover {
+	color: #fff;
+	background-color: #65A443;
+}
+
+#mainview > .container-fluid {
+	padding-top: 40px;
+}
+
+.item-head {
+	margin-top: 20px;
+	text-align: center;
+	font-size: 12pt;
+	font-weight: bold;
+	color: #555;
+	background-color: #ddd;
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #000;
+}
+
+.item-head > div {
+	padding: 10px 0;
+}
+
+.item-head > div:first-child {
+	border-right: 1px solid #000;
+}
+
+.item-head > div:last-child {
+	border-left: 1px solid #000;
+}
+
+.empty-row {
+	text-align: center;
+	padding: 10px 0;
+	font-size: 14pt;
 }
