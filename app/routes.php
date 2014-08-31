@@ -16,7 +16,7 @@ Route::get('/', function()
 	return View::make('login');
 });
 
-Route::get('app', array('before' => 'auth', function() {
+Route::get('app', array('as' => 'approute', 'before' => 'auth', function() {
 	return View::make('main');
 }));
 

@@ -32,7 +32,7 @@ class UserController extends BaseController {
         // And log them in
         Auth::login($user);
         // Then send the redirect URL
-    	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('app')));
+    	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('approute')));
     }
     
     public function postLogin() {
@@ -40,7 +40,7 @@ class UserController extends BaseController {
         if(!Auth::attempt($user)) {
         	return Response::json(array('status' => 'fail', 'message' => 'Invalid email/password'));
         } else {
-        	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('app')));
+        	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('approute')));
         }
     }
 
