@@ -23,6 +23,8 @@
 				</div>
 			</div>
 		</div>
+		<div id="error-message" class="message-box"></div>
+		<div id="success-message" class="message-box"></div>
 		<div id="viewwrap">
 			<div id="mainview" class="views">
 				<div id="new-item-btn">New Item</div>
@@ -51,6 +53,35 @@
 			<div id="leftview" class="views vhide">
 				<div class="close-btn">Close</div>
 				<div class="container-fluid">
+					<form action="{{ action('UserController@postUpdate') }}" method="POST" id="user-update">
+					<div class="row">
+						<div class="col-md-3">Name</div>
+						<div class="col-md-9"><input type="text" name="name" id="update-name" class="login-input" value="{{ Auth::user()->name }}" /></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">Email</div>
+						<div class="col-md-9"><input type="text" name="email" id="update-email" class="login-input" value="{{ Auth::user()->email }}" /></div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3"><input type="submit" id="update-submit" class="login-submit" value="UPDATE" /></div>
+					</div>
+					</form>
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+					<form action="{{ action('UserController@postUpdate') }}" method="POST" id="user-update-pass">
+					<div class="row">
+						<div class="col-md-3">New Password</div>
+						<div class="col-md-9"><input type="password" name="pass1" id="update-pass1" class="login-input" /></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">Confirm New Password</div>
+						<div class="col-md-9"><input type="password" name="pass2" id="update-pass2" class="login-input" /></div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3"><input type="submit" id="pass-submit" class="login-submit" value="UPDATE PASSWORD" /></div>
+					</div>
+					</form>
 				</div>
 			</div>
 

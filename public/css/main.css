@@ -158,6 +158,10 @@ a:hover {
 	top: -100%;
 }
 
+#leftview > .container-fluid {
+	margin-top: 100px;
+}
+
 #new-item-btn {
 	float: right;
 	margin: 10px 50px;
