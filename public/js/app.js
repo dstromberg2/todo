@@ -56,14 +56,14 @@ var app = {
 						else if(typeof succ !== 'undefined') { succ.addClass('show'); }
 					}
 					else { app.displayErrors(err, data.message); }
-
-					if(typeof succ !== 'undefined') {
-						setTimeout(function() {
-							succ.removeClass('show');
-							err.removeClass('show');
-						}, 3000);
-					}
 				});
+			}
+
+			if(typeof succ !== 'undefined') {
+				setTimeout(function() {
+					succ.removeClass('show');
+					err.removeClass('show');
+				}, 3000);
 			}
 		});
 	},

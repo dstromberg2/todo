@@ -45,13 +45,17 @@ class UserController extends BaseController {
     }
 
     public function postUpdate() {
+        // First check if they have changed their email address
+        if(Input::has('email') && Input::get('email') != Auth::user()->email) $fld = 'email|unique:users';
+        else $fld = 'email';
     	// Run the validation checks
     	$validator = Validator::make(
     		array('email' => Input::get('email'),
     			'pass1' => Input::get('pass1'),
     			'pass2' => Input::get('pass2')),
-    		array('email' => 'email|unique:users',
-    			'pass2' => 'same:pass1')
+    		array('email' => $fld,
+    			'pass2' => 'same:pass1'),
+            array('same' => 'The password fields must match')
     	);
     	// Send back the error message if it fails
     	if($validator->fails()) return Response::json(array('status' => 'fail', 'message' => $validator->messages()));

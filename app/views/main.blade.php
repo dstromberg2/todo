@@ -110,6 +110,9 @@
 	</div>
 	<script>
 	$(document).ready(function() {
+		app.setupForm($('#user-update'), [$('#update-name'), $('#update-email')], $('#error-box'), $('#success-box'));
+		app.setupForm($('#user-update-pass'), [$('#update-pass1'), $('#update-pass2')], $('#error-box'), $('#success-box'));
+		
 		$('#settings-link').click(function() {
 			app.loadPage($('#leftview'));
 		});
