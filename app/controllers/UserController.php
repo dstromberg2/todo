@@ -16,7 +16,8 @@ class UserController extends BaseController {
             array('email' => 'required|email|unique:users',
             	'name' => 'required',
             	'pass1' => 'required',
-            	'pass2' => 'required|same:pass1')
+            	'pass2' => 'required|same:pass1'),
+            array('same' => 'The password fields must match')
         );
         // Send back the error messages if it fails
         if($validator->fails()) return Response::json(array('status' => 'fail', 'message' => $validator->messages()));
@@ -31,7 +32,7 @@ class UserController extends BaseController {
         // And log them in
         Auth::login($user);
         // Then send the redirect URL
-    	return Response::json(array('status' => 'success', 'url' => route('app')));
+    	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('app')));
     }
     
     public function postLogin() {
@@ -39,7 +40,7 @@ class UserController extends BaseController {
         if(!Auth::attempt($user)) {
         	return Response::json(array('status' => 'fail', 'message' => 'Invalid email/password'));
         } else {
-        	return Response::json(array('status' => 'success', 'url' => route('app')));
+        	return Response::json(array('status' => 'success', 'redirect' => 'true', 'url' => route('app')));
         }
     }
 
