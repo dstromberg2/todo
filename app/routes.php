@@ -17,7 +17,10 @@ Route::get('/', array('as' => '/', function()
 }));
 
 Route::get('app', array('as' => 'approute', 'before' => 'auth', function() {
-	return View::make('main');
+	$data['items'] = Item::where('user_id', Auth::user()->id)->orderBy('due', 'DESC')->get();
+	return View::make('main', $data);
 }));
 
 Route::controller('user', 'UserController');
+Route::controller('item', 'ItemController');
+Route::controller('tag', 'TagController');

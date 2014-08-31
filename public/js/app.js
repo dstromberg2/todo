@@ -61,30 +61,14 @@ var app = {
 		});
 	},
 
-	loadPage: function(cont, url) {
+	loadPage: function(cont) {
 		par = cont.closest('.views');
-		if(typeof url === 'string') {
-			$.ajax({
-				url: url,
-				type: 'get'
-			}).done(function(data) {
-				cont.html(data);
-				$('.views').each(function() {
-					if(!$(this).hasClass('vhide') && $(this).attr('id') !== par.attr('id')) { 
-						$(this).addClass('lastview').addClass('vhide');
-						app.lastview = $(this);
-					}
-				});
-				par.removeClass('vhide');
-			})
-		} else {
-			$('.views').each(function() {
-				if(!$(this).hasClass('vhide') && $(this).attr('id') !== par.attr('id')) { 
-					$(this).addClass('lastview').addClass('vhide');
-					app.lastview = $(this);
-				}
-			});
-			par.removeClass('vhide');
-		}
+		$('.views').each(function() {
+			if(!$(this).hasClass('vhide') && $(this).attr('id') !== par.attr('id')) { 
+				$(this).addClass('lastview').addClass('vhide');
+				app.lastview = $(this);
+			}
+		});
+		par.removeClass('vhide');
 	}
 };

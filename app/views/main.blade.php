@@ -32,8 +32,8 @@
 						<div class="col-xs-3">Due By</div>
 						<div class="col-sm-1 col-xs-2">Status</div>
 					</div>
-					@if(count(Auth::user()->items) > 0)
-						@foreach(Auth::user()->items as $item)
+					@if(count($items) > 0)
+						@foreach($items as $item)
 						<div class="row item-row">
 							<div class="col-xs-8">$item->title</div>
 							<div class="col-xs-3">$item->due</div>
