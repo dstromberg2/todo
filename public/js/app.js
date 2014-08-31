@@ -1,4 +1,6 @@
 var app = {
+
+	lastview: $('#mainview'),
 	
 	// Check for empty values in required fields
 	checkFields: function(flds, errfld) {
@@ -57,5 +59,32 @@ var app = {
 				});
 			}
 		});
+	},
+
+	loadPage: function(cont, url) {
+		par = cont.closest('.views');
+		if(typeof url === 'string') {
+			$.ajax({
+				url: url,
+				type: 'get'
+			}).done(function(data) {
+				cont.html(data);
+				$('.views').each(function() {
+					if(!$(this).hasClass('vhide') && $(this).attr('id') !== par.attr('id')) { 
+						$(this).addClass('lastview').addClass('vhide');
+						app.lastview = $(this);
+					}
+				});
+				par.removeClass('vhide');
+			})
+		} else {
+			$('.views').each(function() {
+				if(!$(this).hasClass('vhide') && $(this).attr('id') !== par.attr('id')) { 
+					$(this).addClass('lastview').addClass('vhide');
+					app.lastview = $(this);
+				}
+			});
+			par.removeClass('vhide');
+		}
 	}
 };

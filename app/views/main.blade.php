@@ -70,18 +70,16 @@
 	<script>
 	$(document).ready(function() {
 		$('#settings-link').click(function() {
-			$('#leftview').removeClass('vhide');
-			$('#mainview').addClass('vhide');
+			app.loadPage($('#leftview'));
 		});
 
 		$('#new-item-btn').click(function() {
-			$('#topview').removeClass('vhide');
-			$('#mainview').addClass('vhide');
+			app.loadPage($('#topview'));
 		});
 
 		$('.close-btn').click(function() {
-			$(this).parent().addClass('vhide');
-			$('#mainview').removeClass('vhide');
+			app.loadPage(app.lastview);
+			app.lastview = $('#mainview');
 		});
 	});
 	</script>
