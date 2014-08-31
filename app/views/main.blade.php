@@ -48,21 +48,42 @@
 				</div>
 			</div>
 
-			<div id="leftview" class="views">
+			<div id="leftview" class="views vhide">
+				<div class="close-btn">Close</div>
 				<div class="container-fluid">
 				</div>
 			</div>
 
-			<div id="rightview" class="views">
+			<div id="rightview" class="views vhide">
+				<div class="close-btn">Close</div>
 				<div class="container-fluid">
 				</div>
 			</div>
 
-			<div id="topview" class="views">
+			<div id="topview" class="views vhide">
+				<div class="close-btn">Cancel</div>
 				<div class="container-fluid">
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+	$(document).ready(function() {
+		$('#settings-link').click(function() {
+			$('#leftview').removeClass('vhide');
+			$('#mainview').addClass('vhide');
+		});
+
+		$('#new-item-btn').click(function() {
+			$('#topview').removeClass('vhide');
+			$('#mainview').addClass('vhide');
+		});
+
+		$('.close-btn').click(function() {
+			$(this).parent().addClass('vhide');
+			$('#mainview').removeClass('vhide');
+		});
+	});
+	</script>
 </body>
 </html>

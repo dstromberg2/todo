@@ -88,6 +88,7 @@ a:hover {
 
 #header {
 	margin-bottom: 40px;
+	z-index: 100;
 }
 
 #hlogo {
@@ -118,12 +119,43 @@ a:hover {
 	background-color: #fff;
 	border-radius: 0 0 15px 15px;
 	position: relative;
+	z-index: 10;
+	overflow: hidden;
 }
 
 .views {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	background-color: rgba(255, 255, 255, 1);
 	transform: scale(1.0);
 	opacity: 1.0;
-	transition: 1s all ease-in-out;
+	transition: 0.8s all ease-in-out, background-color 1.5s, opacity 1.5s;
+}
+
+#mainview {
+	z-index: 1;
+}
+
+.views.vhide {
+	transform: scale(0.8);
+	opacity: 0.5;
+	background-color: rgba(255, 255, 255, 0);
+}
+
+#leftview.vhide {
+	left: -100%;
+}
+
+#rightview.vhide {
+	left: 100%;
+}
+
+#topview.vhide {
+	top: -100%;
 }
 
 #new-item-btn {
@@ -174,4 +206,21 @@ a:hover {
 	text-align: center;
 	padding: 10px 0;
 	font-size: 14pt;
+}
+
+.close-btn {
+	float: right;
+	margin: 10px 50px;
+	padding: 7px 20px;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #866565;
+	border: 2px solid #866565;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+.close-btn:hover {
+	background-color: #866565;
+	color: #fff;
 }
