@@ -33,8 +33,10 @@ class TagController extends BaseController {
     }
 
     public function postAssign() {
+        if(!Input::has('tag_id') || !Input::has('item_id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         $tag = Tag::find(Input::get('tag_id'));
         $item = Item::find(Input::get('item_id'));
+        if(is_null($item) || is_null($tag)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         if($item->user_id != Auth::user()->id || $tag->user_id != Auth::user()->id) {
             return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         } else {
@@ -51,7 +53,9 @@ class TagController extends BaseController {
     }
 
     public function postUnassign() {
+        if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         $tl = Taglink::find(Input::get('id'));
+        if(is_null($tl)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         if($tl->item()->user_id != Auth::user()->id || $tl->tag()->user_id != Auth::user()->id) {
             return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         } else {
