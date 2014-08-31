@@ -57,6 +57,11 @@ a:hover {
 	padding-left: 5px;
 }
 
+.login-input.error {
+	border: 2px inset #DF001A;
+	background-color: #FEE8EA;
+}
+
 .login-submit {
 	background-color: #fff;
 	color: #65A443;
@@ -68,4 +73,15 @@ a:hover {
 .login-submit:hover {
 	background-color: #65A443;
 	color: #fff;
+}
+
+.error-message {
+	opacity: 0;
+	color: #DF001A;
+	padding-bottom: 15px;
+	transition: 0.5s all;
+}
+
+.error-message.show {
+	opacity: 1;
 }

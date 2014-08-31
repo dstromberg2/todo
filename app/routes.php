@@ -16,6 +16,8 @@ Route::get('/', function()
 	return View::make('login');
 });
 
-Route::get('app', function () {
+Route::get('app', array('before' => 'auth', function() {
 	return View::make('main');
-});
+}));
+
+Route::controller('user', 'UserController');
