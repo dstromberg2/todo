@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function()
+Route::get('/', array('as' => '/', function()
 {
 	return View::make('login');
-});
+}));
 
 Route::get('app', array('as' => 'approute', 'before' => 'auth', function() {
 	return View::make('main');
