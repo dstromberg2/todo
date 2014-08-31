@@ -18,6 +18,7 @@ a:hover {
 	min-height: 96vh;
 	border: 2px solid #777;
 	border-radius: 15px;
+	position: relative;
 }
 
 #logo {
@@ -227,4 +228,41 @@ a:hover {
 .close-btn:hover {
 	background-color: #866565;
 	color: #fff;
+}
+
+.messagewrap {
+	position: absolute;
+	top: 115px;
+	text-align: center;
+	width: 100%;
+	z-index: 200;
+	opacity: 0;
+	transition: 0.5s all;
+}
+
+.messagewrap.show {
+	opacity: 1;
+}
+
+.message-box {
+	padding: 5px 0;
+}
+
+#success-box {
+	background-color: #EEFFEB;
+	color: #0F6500;
+	border: 1px solid #0F6500;
+	font-size: 14pt;
+}
+
+#error-box {
+	background-color: #FFEBEE;
+	color: #DF001A;
+	border: 1px solid #DF001A;
+}
+
+@media (max-width: 768px) {
+	.messagewrap {
+		top: 195px;
+	}
 }

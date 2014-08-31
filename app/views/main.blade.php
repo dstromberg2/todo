@@ -23,8 +23,18 @@
 				</div>
 			</div>
 		</div>
-		<div id="error-message" class="message-box"></div>
-		<div id="success-message" class="message-box"></div>
+		<div id="error-message" class="container-fluid messagewrap">
+			<div class="row">
+			<div class="col-xs-4 col-xs-offset-4">
+			<div id="error-box" class="message-box"></div>
+			</div></div>
+		</div>
+		<div id="success-message" class="container-fluid messagewrap">
+			<div class="row">
+			<div class="col-xs-4 col-xs-offset-4">
+			<div id="success-box" class="message-box">Success!</div>
+			</div></div>
+		</div>
 		<div id="viewwrap">
 			<div id="mainview" class="views">
 				<div id="new-item-btn">New Item</div>
