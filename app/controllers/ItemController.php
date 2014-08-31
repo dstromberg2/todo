@@ -93,14 +93,38 @@ class ItemController extends BaseController {
       		      	'status' => Input::get('status')),
             	array('title' => 'required',
             		'due' => 'required|date',
-            		'status' => 'boolean')
+            		'status' => 'required|boolean')
         	);
         	// Send back the error messages if it fails
         	if($validator->fails()) return Response::json(array('status' => 'fail', 'message' => $validator->messages()));
- 	       try {
+ 	        try {
     			$item->title = Input::get('title');
 	    		$item->body = Input::get('body');
     			$item->due = Input::get('due');
+    			$item->status = Input::get('status');
+    			$item->save();
+	    	} catch (Exception $e) {
+    			return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));
+    		}
+
+    		return Response::json(array('status' => 'success'));
+        }
+    }
+
+    public function postStatus() {
+    	if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
+    	$item = Item::find(Input::get('id'));
+    	if(is_null($item)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
+        if($item->user_id != Auth::user()->id) {
+            return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
+        } else {
+		   	// Run the one validation rule
+     	   $validator = Validator::make(
+            	array('status' => Input::get('status')),
+            	array('status' => 'required|boolean'));
+        	// Send back the error messages if it fails
+        	if($validator->fails()) return Response::json(array('status' => 'fail', 'message' => $validator->messages()));
+ 	        try {
     			$item->status = Input::get('status');
     			$item->save();
 	    	} catch (Exception $e) {
