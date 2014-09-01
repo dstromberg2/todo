@@ -392,6 +392,44 @@ input[type=radio]:checked.radio-false + label > span:before {
 	top: 200px;
 }
 
+.col-md-3 > .top-submit {
+	margin: 0;
+}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+
+#item-edit-add-tag {
+	display: inline-block;
+	margin: 0 15px;
+	padding: 0 5px;
+	font-size: 21pt;
+	line-height: 1.0em;
+	border: 1px;
+	border: 2px solid #65A443;
+	color: #65A443;
+	cursor: pointer;
+}
+
+#item-edit-add-tag:hover {
+	background-color: #65A443;
+	color: #fff;
+}
+
+#item-edit-add-tag.disabled {
+	border: 2px solid #999;
+	color: #999;
+	cursor: default;
+}
+
+#item-edit-add-tag.disabled:hover {
+	background-color: #fff;
+	color: #777;
+}
+
 @media (max-width: 768px) {
 	.messagewrap {
 		top: 195px;

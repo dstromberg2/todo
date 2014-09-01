@@ -28,8 +28,14 @@ class TagController extends BaseController {
     }
 
     public function getList() {
-        $tags = Tag::where('user_id', Auth::user()->id)->orderBy('name', 'ASC')->get();
-        return Response::json(array('status' => 'success', 'tags' => $tags));
+        $q = Tag::where('user_id', Auth::user()->id)->orderBy('name', 'ASC');
+        if(Input::has('query')) $q->where('name', 'LIKE', "%".Input::get('query')."%");
+        $tags = $q->get();
+        $ret = array();
+        foreach($tags as $tag) {
+            $ret[] = array('value' => $tag->name, 'data' => $tag->id);
+        }
+        return Response::json(array('suggestions' => $ret));
     }
 
     public function postAssign() {
@@ -48,7 +54,7 @@ class TagController extends BaseController {
             } catch (Exception $e) {
                 return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));
             }
-            return Response::json(array('status' => 'success'));
+            return Response::json(array('status' => 'success', 'id' => $tl->id));
         }
     }
 

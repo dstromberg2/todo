@@ -11,6 +11,7 @@
     <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/DateTimePicker.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.autocomplete.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
@@ -176,6 +177,8 @@
 						<div class="col-md-12">&nbsp;</div>
 					</div>
 					<div class="row">
+						<div class="col-md-3 item-label">Assign Tags</div>
+						<div class="col-md-5"><input type="text" name="assign-tag" id="item-edit-assign-tag" class="login-input" /><div id="item-edit-add-tag" class="disabled">+</div></div>
 						<div class="col-md-3"><div id="add-tag-btn" class="top-submit" data-toggle="modal" data-target="#addtag-modal">Add New Tag</div></div>
 					</div>
 				</form>
@@ -232,6 +235,27 @@
 				app.lastview = $('#mainview');
 			}
 		});
+
+		$('#item-edit-assign-tag').autocomplete({
+			serviceUrl: "{{ action('TagController@getList') }}",
+			onSearchStart: function() {
+				$('#item-edit-add-tag').addClass('disabled');
+			},
+			onSelect: function(value, data) {
+				$('#item-edit-add-tag').data('id', data);
+				$('#item-edit-add-tag').removeClass('disabled');
+			}
+		});
+
+		$('#item-edit-add-tag').click(function() {
+			if(!$(this).hasClass('disabled')) {
+				resp = app.sendPost("{{ action('TagController@postAssign') }}", {'tag_id': $(this).data('id'), 'item_id': ''});
+				resp.done(function(data) {
+
+				});
+			}
+		});
+
 	});
 	</script>
 </body>
