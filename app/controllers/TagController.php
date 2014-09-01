@@ -54,7 +54,7 @@ class TagController extends BaseController {
             } catch (Exception $e) {
                 return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));
             }
-            return Response::json(array('status' => 'success', 'id' => $tl->id));
+            return Response::json(array('status' => 'success', 'tag' => Taglink::with('tag')->find($tl->id)));
         }
     }
 
@@ -62,7 +62,7 @@ class TagController extends BaseController {
         if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         $tl = Taglink::find(Input::get('id'));
         if(is_null($tl)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
-        if($tl->item()->user_id != Auth::user()->id || $tl->tag()->user_id != Auth::user()->id) {
+        if($tl->item->user_id != Auth::user()->id || $tl->tag->user_id != Auth::user()->id) {
             return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         } else {
             try {

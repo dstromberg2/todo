@@ -430,6 +430,22 @@ input[type=radio]:checked.radio-false + label > span:before {
 	color: #777;
 }
 
+.tag {
+	float: left;
+	margin-right: 10px;
+	border: 1px solid #777;
+	padding: 2px 10px;
+	background-color: #EAFFE6;
+}
+
+.tagdel {
+	margin-left: 9px;
+	padding: 0 3px;
+	color: #DF001A;
+	background-color: #FFDCDF;
+	cursor: pointer;
+}
+
 @media (max-width: 768px) {
 	.messagewrap {
 		top: 195px;

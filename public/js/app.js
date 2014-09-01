@@ -84,6 +84,8 @@ var app = {
 	},
 
 	clearEdit: function() {
+		$('#topview').data('new', 'true');
+		$('#item-edit-id').val('0');
 		$('#item-edit-title').val('');
 		$('#item-edit-body').val('');
 		$('#item-edit-due').val('');
@@ -91,6 +93,7 @@ var app = {
 		$('#item-edit-status-true').prop('checked', false);
 		$('#item-edit-title').removeClass('error');
 		$('#item-edit-due').removeClass('error');
+		$('#tag-edit-container').empty();
 	},
 
 	loadRows: function() {
@@ -125,12 +128,17 @@ var app = {
 			type: 'GET'
 		}).done(function(data) {
 			if(data.status == 'success') {
+				$('#topview').data('new', 'false');
 				$('#item-edit-id').val(data.item.id);
 				$('#item-edit-title').val(data.item.title);
 				$('#item-edit-body').val(data.item.body);
 				$('#item-edit-due').val(data.item.due);
 				if(data.item.status == '0') { $('#item-edit-status-false').prop('checked', true); }
 				else { $('#item-edit-status-true').prop('checked', true); }
+				$('#tag-edit-container').empty();
+				$.each(data.item.taglinks, function() {
+					app.addTag($('#tag-edit-container'), this, true);
+				});
 
 				if(typeof finish === 'function') { finish(); }
 			} else {
@@ -162,6 +170,10 @@ var app = {
 					$('#item-show-status-true + label').show();
 				}
 				$('#item-show-author').html(data.item.user.name);
+				$('#tag-view-container').empty();
+				$.each(data.item.taglinks, function() {
+					app.addTag($('#tag-view-container'), this, false);
+				});
 
 				if(typeof finish === 'function') { finish(); }
 			} else {
@@ -171,6 +183,24 @@ var app = {
 				}, 3000);
 			}
 		});
+	},
+
+	loadNew: function(url) {
+		app.clearEdit();
+		resp = app.sendPost(url, {});
+		resp.done(function(data) {
+			$('#item-edit-id').val(data.item.id);
+			$('#topview').data('new', 'true');
+			app.loadPage($('#topview'));
+		});
+	},
+
+	addTag: function(cont, taglink, edit) {
+		tag = $('<div class="tag" data-id="'+taglink.id+'">'+taglink.tag.name+'</div>');
+		if(edit === true) {
+			tag.append('<span class="tagdel">X</span>');
+		}
+		cont.append(tag);
 	}
 
 };

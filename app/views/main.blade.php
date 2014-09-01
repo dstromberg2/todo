@@ -144,13 +144,16 @@
 						<div class="col-md-3 item-label">Author</div>
 						<div class="col-md-9" id="item-show-author"></div>
 					</div>
+					<div class="row">
+						<div class="col-md-8 col-md-offset-3" id="tag-view-container"></div>
+					</div>
 				</div>
 			</div>
 
 			<div id="topview" class="views vhide">
 				<form action="{{ action('ItemController@postEdit') }}" method="POST" id="item-edit">
 				<input type="submit" id="item-save" class="top-submit" value="SAVE" />
-				<div class="close-btn">Cancel</div>
+				<div class="close-btn cancel-new">Cancel</div>
 				<div class="container-fluid">
 					<input type="hidden" name="id" value="0" id="item-edit-id" />
 					<div class="row">
@@ -180,6 +183,9 @@
 						<div class="col-md-3 item-label">Assign Tags</div>
 						<div class="col-md-5"><input type="text" name="assign-tag" id="item-edit-assign-tag" class="login-input" /><div id="item-edit-add-tag" class="disabled">+</div></div>
 						<div class="col-md-3"><div id="add-tag-btn" class="top-submit" data-toggle="modal" data-target="#addtag-modal">Add New Tag</div></div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 col-md-offset-3" id="tag-edit-container"></div>
 					</div>
 				</form>
 				</div>
@@ -225,12 +231,14 @@
 		});
 
 		$('#new-item-btn').click(function() {
-			app.clearEdit();
-			app.loadPage($('#topview'));
+			app.loadNew("{{ action('ItemController@postQuickNew') }}");
 		});
 
 		$('.close-btn').click(function() {
 			if(!$(this).hasClass('modal-close')) {
+				if($(this).hasClass('cancel-new') && $('#topview').data('new') == 'true') {
+					app.sendPost("{{ action('ItemController@postDelete') }}", {'id': $('#item-edit-id').val()});
+				}
 				app.loadPage(app.lastview);
 				app.lastview = $('#mainview');
 			}
@@ -241,21 +249,29 @@
 			onSearchStart: function() {
 				$('#item-edit-add-tag').addClass('disabled');
 			},
-			onSelect: function(value, data) {
-				$('#item-edit-add-tag').data('id', data);
+			onSelect: function(value) {
+				console.log(value.data);
+				$('#item-edit-add-tag').data('id', value.data);
 				$('#item-edit-add-tag').removeClass('disabled');
 			}
 		});
 
 		$('#item-edit-add-tag').click(function() {
 			if(!$(this).hasClass('disabled')) {
-				resp = app.sendPost("{{ action('TagController@postAssign') }}", {'tag_id': $(this).data('id'), 'item_id': ''});
+				resp = app.sendPost("{{ action('TagController@postAssign') }}", {'tag_id': $('#item-edit-add-tag').data('id'), 'item_id': $('#item-edit-id').val()});
 				resp.done(function(data) {
-
+					app.addTag($('#tag-edit-container'), data.tag, true);
 				});
 			}
 		});
 
+		$(document).on('click', '.tagdel', function() {
+			tag = $(this).parent();
+			resp = app.sendPost("{{ action('TagController@postUnassign') }}", {'id': tag.data('id')});
+			resp.done(function(data) {
+				tag.remove();
+			});
+		});
 	});
 	</script>
 </body>

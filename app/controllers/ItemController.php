@@ -39,7 +39,7 @@ class ItemController extends BaseController {
 
     public function getView() {
     	if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
-    	$item = Item::with('user')->find(Input::get('id'));
+    	$item = Item::with('user')->with(array('taglinks' => function($q){ $q->with('tag'); }))->find(Input::get('id'));
     	if(is_null($item)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         if($item->user_id != Auth::user()->id) {
             return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
@@ -50,7 +50,7 @@ class ItemController extends BaseController {
 
     public function getEdit() {
     	if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
-    	$item = Item::find(Input::get('id'));
+    	$item = Item::with(array('taglinks' => function($q){ $q->with('tag'); }))->find(Input::get('id'));
     	if(is_null($item)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
         if($item->user_id != Auth::user()->id) {
             return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
@@ -90,6 +90,29 @@ class ItemController extends BaseController {
     		}
 
     		return Response::json(array('status' => 'success'));
+    }
+
+    public function postQuickNew() {
+    	$item = new Item();
+    	$item->user_id = Auth::user()->id;
+    	$item->save();
+    	return Response::json(array('status' => 'success', 'item' => $item));
+    }
+
+    public function postDelete() {
+    	if(!Input::has('id')) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
+    	$item = Item::find(Input::get('id'));
+    	if(is_null($item)) return Response::json(array('status' => 'fail', 'message' => 'Unauthorized Access'));
+    	try {
+    		foreach($item->taglinks as $tag) {
+    			$tag->delete();
+    		}
+    		$item->delete();
+    	} catch (Exception $e) {
+    		return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));
+    	}
+
+    	return Response::json(array('status' => 'success'));
     }
 
     public function postStatus() {
