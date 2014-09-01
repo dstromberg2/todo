@@ -96,7 +96,7 @@ var app = {
 
 	},
 
-	loadView: function(id) {
+	loadView: function(id, finish) {
 		$.ajax({
 			url: app.itemurl,
 			data: {'id': id},
@@ -116,6 +116,8 @@ var app = {
 					$('#item-show-status-true + label').show();					
 				}
 				$('#item-show-author').html(data.item.user.name);
+
+				if(typeof finish === 'function') { finish(); }
 			} else {
 				app.displayErrors($('#error-box'), data.message);
 				setTimeout(function() {

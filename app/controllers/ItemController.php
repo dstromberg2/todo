@@ -77,7 +77,7 @@ class ItemController extends BaseController {
     			$item->title = Input::get('title');
 	    		$item->body = Input::get('body');
     			$item->due = Input::get('due');
-    			$item->status = Input::get('status');
+    			$item->status = (Input::get('status') == 'true' ? 1 : 0);
     			$item->save();
 	    	} catch (Exception $e) {
     			return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));
@@ -96,11 +96,11 @@ class ItemController extends BaseController {
 		   	// Run the one validation rule
      	   $validator = Validator::make(
             	array('status' => Input::get('status')),
-            	array('status' => 'required|boolean'));
+            	array('status' => 'required'));
         	// Send back the error messages if it fails
         	if($validator->fails()) return Response::json(array('status' => 'fail', 'message' => $validator->messages()));
  	        try {
-    			$item->status = Input::get('status');
+    			$item->status = (Input::get('status') == 'true' ? 1 : 0);
     			$item->save();
 	    	} catch (Exception $e) {
     			return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));

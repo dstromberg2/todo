@@ -171,8 +171,9 @@
 		$('#dtBox').DateTimePicker({'dateTimeFormat': 'yyyy-MM-dd HH:mm:ss'});
 		
 		$(document).on('click', '.item-row', function() {
-			app.loadView($(this).data('id'));
-			app.loadPage($('#rightview'));
+			app.loadView($(this).data('id'), function() {
+				app.loadPage($('#rightview'));
+			});
 		});
 
 		$('#settings-link').click(function() {

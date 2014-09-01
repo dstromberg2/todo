@@ -17,7 +17,7 @@ Route::get('/', array('as' => '/', function()
 }));
 
 Route::get('app', array('as' => 'approute', 'before' => 'auth', function() {
-	$data['items'] = Item::where('user_id', Auth::user()->id)->orderBy('due', 'DESC')->get();
+	$data['items'] = Item::where('user_id', Auth::user()->id)->orderBy('due', 'ASC')->get();
 	return View::make('main', $data);
 }));
 
