@@ -42,10 +42,11 @@
 				<div id="new-item-btn">New Item</div>
 				<div class="container-fluid">
 					<div class="row item-head">
-						<div class="col-sm-8 col-xs-7">Title</div>
-						<div class="col-xs-3">Due By</div>
-						<div class="col-sm-1 col-xs-2">Status</div>
+						<div class="col-sm-8 col-xs-7 sortrow" data-sort="1" data-dir="ASC">Title</div>
+						<div class="col-xs-3 sortrow active" data-sort="0" data-dir="ASC">Due By</div>
+						<div class="col-sm-1 col-xs-2 sortrow" data-sort="2" data-dir="ASC">Status</div>
 					</div>
+					<div id="rowwrap">
 					@if(count($items) > 0)
 						@foreach($items as $item)
 						<div class="row item-row" data-id="{{ $item->id }}">
@@ -60,6 +61,7 @@
 						<div class="col-xs-12">No Items to Show!</div>
 					</div>
 					@endif
+					</div>
 				</div>
 			</div>
 
@@ -162,9 +164,12 @@
 	<script>
 	$(document).ready(function() {
 		app.itemurl = "{{ action('ItemController@getView') }}";
+		app.rowurl = "{{ action('ItemController@getList') }}";
 		app.setupForm($('#user-update'), [$('#update-name'), $('#update-email')], $('#error-box'), $('#success-box'));
 		app.setupForm($('#user-update-pass'), [$('#update-pass1'), $('#update-pass2')], $('#error-box'), $('#success-box'));
 		app.setupForm($('#item-edit'), [$('#item-edit-title'), $('#item-edit-due')], $('#error-box'), $('#success-box'), function() {
+			app.loadRows();
+			app.loadView($('#item-edit-id').val());
 			app.loadPage(app.lastview);
 			app.lastview = $('#mainview');
 		});
@@ -173,6 +178,16 @@
 		$(document).on('click', '.item-row', function() {
 			app.loadView($(this).data('id'), function() {
 				app.loadPage($('#rightview'));
+			});
+		});
+
+		$('.sortrow').click(function() {
+			app.sortRows($(this));
+		});
+
+		$('#item-edit-btn').click(function() {
+			app.loadEdit($(this).data('id'), function() {
+				app.loadPage($('#topview'));
 			});
 		});
 

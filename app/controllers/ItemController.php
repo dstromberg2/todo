@@ -8,27 +8,33 @@ class ItemController extends BaseController {
 
     public function getList() {
     	$items = Item::where('user_id', Auth::user()->id);
-    	if(Input::has('completed')) {
+/*    	if(Input::has('completed')) {
     		if(Input::get('completed') !== true) $items->where('status', false);
     	} else {
     		$items->where('status', false);
     	}
+*/
+    	if(Input::has('dir') && (Input::get('dir') == 'ASC' || Input::get('dir') == 'DESC')) {
+    		$dir = Input::get('dir');
+    	} else {
+    		$dir = 'ASC';
+    	}
     	if(Input::has('order')) {
     		switch(Input::get('order')) {
     			case 1:
-    				$items->orderBy('due');
+    				$items->orderBy('title', $dir);
     				break;
     			case 2:
-    				$items->orderBy('status');
+    				$items->orderBy('status', $dir);
     				break;
     			case 0:
     			default:
-    				$items->orderBy('title');
+    				$items->orderBy('due', $dir);
     				break;
     		}
-    	} else { $items->orderBy('title'); }
-    	$items->get();
-    	return Response::json(array('status' => 'success', 'items' => $items));
+    	} else { $items->orderBy('due', $dir); }
+
+    	return View::make('itemrows', array('items' => $items->get()));
     }
 
     public function getView() {

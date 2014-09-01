@@ -2,6 +2,7 @@ var app = {
 
 	lastview: $('#mainview'),
 	itemurl: '',
+	rowurl: '',
 	
 	// Check for empty values in required fields
 	checkFields: function(flds, errfld) {
@@ -92,8 +93,53 @@ var app = {
 		$('#item-edit-due').removeClass('error');
 	},
 
-	loadEdit: function(id) {
+	loadRows: function(data) {
+		if (typeof data === 'undefined') data = {};
+		$.ajax({
+			url: app.rowurl,
+			data: data,
+			dataType: 'html',
+			type: 'GET'
+		}).done(function(data) {
+			$('#rowwrap').empty();
+			$('#rowwrap').html(data);
+		});
+	},
 
+	sortRows: function(fld) {
+		if(fld.hasClass('active')) {
+			if(fld.data('dir') == 'ASC') fld.data('dir', 'DESC');
+			else fld.data('dir', 'ASC');
+		}
+		app.loadRows({'order': fld.data('sort'), 'dir': fld.data('dir')});
+		$('.sortrow.active').removeClass('active');
+		fld.addClass('active');
+	},
+
+	loadEdit: function(id, finish) {
+		app.clearEdit();
+		$.ajax({
+			url: app.itemurl,
+			data: {'id': id},
+			dataType: 'json',
+			type: 'GET'
+		}).done(function(data) {
+			if(data.status == 'success') {
+				$('#item-edit-id').val(data.item.id);
+				$('#item-edit-title').val(data.item.title);
+				$('#item-edit-body').val(data.item.body);
+				$('#item-edit-due').val(data.item.due);
+				if(data.item.status == '0') { $('#item-edit-status-false').prop('checked', true); }
+				else { $('#item-edit-status-true').prop('checked', true); }
+
+				if(typeof finish === 'function') { finish(); }
+			} else {
+				app.displayErrors($('#error-box'), data.message);
+				setTimeout(function() {
+					$('#error-box').removeClass('show');
+				}, 3000);
+			}
+		});
 	},
 
 	loadView: function(id, finish) {
@@ -104,7 +150,7 @@ var app = {
 			type: 'GET'
 		}).done(function(data) {
 			if(data.status == 'success') {
-				$('#item-edit-btn').data('id', id);
+				$('#item-edit-btn').data('id', data.item.id);
 				$('#item-show-title').html(data.item.title);
 				$('#item-show-body').html(data.item.body);
 				$('#item-show-due').html(data.item.due);
@@ -113,7 +159,7 @@ var app = {
 					$('#item-show-status-true + label').hide();
 				} else {
 					$('#item-show-status-false + label').hide();
-					$('#item-show-status-true + label').show();					
+					$('#item-show-status-true + label').show();
 				}
 				$('#item-show-author').html(data.item.user.name);
 
