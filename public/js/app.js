@@ -93,8 +93,8 @@ var app = {
 		$('#item-edit-due').removeClass('error');
 	},
 
-	loadRows: function(data) {
-		if (typeof data === 'undefined') data = {};
+	loadRows: function() {
+		data = {'order': $('.sortrow.active').data('sort'), 'dir': $('.sortrow.active').data('dir')};
 		$.ajax({
 			url: app.rowurl,
 			data: data,
@@ -111,9 +111,9 @@ var app = {
 			if(fld.data('dir') == 'ASC') fld.data('dir', 'DESC');
 			else fld.data('dir', 'ASC');
 		}
-		app.loadRows({'order': fld.data('sort'), 'dir': fld.data('dir')});
 		$('.sortrow.active').removeClass('active');
 		fld.addClass('active');
+		app.loadRows();
 	},
 
 	loadEdit: function(id, finish) {

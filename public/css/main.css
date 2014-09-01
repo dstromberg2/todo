@@ -388,6 +388,10 @@ input[type=radio]:checked.radio-false + label > span:before {
 	text-align: center;
 }
 
+.modal {
+	top: 200px;
+}
+
 @media (max-width: 768px) {
 	.messagewrap {
 		top: 195px;

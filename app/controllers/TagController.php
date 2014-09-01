@@ -18,7 +18,7 @@ class TagController extends BaseController {
         try {
             $tag = new Tag();
             $tag->user_id = Auth::user()->id;
-            $tag->title = Input::get('name');
+            $tag->name = Input::get('name');
             $tag->save();
         } catch (Exception $e) {
             return Response::json(array('status' => 'fail', 'message' => $e->getMessage()));

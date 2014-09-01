@@ -15,6 +15,25 @@
 </head>
 <body>
 	<div id="mainwrap">
+<div class="modal fade" id="addtag-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="{{ action('TagController@postNew') }}" method="POST" id="frm-tag-add">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Add a New Tag</h4>
+			</div>
+			<div class="modal-body">
+        		<input type="text" name="name" id="add-tag-name" class="login-input" />
+			</div>
+			<div class="modal-footer">
+				<div class="close-btn modal-close" data-dismiss="modal">Close</div>
+				<input type="submit" id="item-save" class="top-submit" value="Add Tag" />
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
 		<div id="header">
 			<div class="container-fluid">
 				<div class="row">
@@ -156,6 +175,9 @@
 					<div class="row">
 						<div class="col-md-12">&nbsp;</div>
 					</div>
+					<div class="row">
+						<div class="col-md-3"><div id="add-tag-btn" class="top-submit" data-toggle="modal" data-target="#addtag-modal">Add New Tag</div></div>
+					</div>
 				</form>
 				</div>
 			</div>
@@ -173,6 +195,10 @@
 			app.loadPage(app.lastview);
 			app.lastview = $('#mainview');
 		});
+		app.setupForm($('#frm-tag-add'), [$('#add-tag-name')], $('#error-box'), $('#success-box'), function() {
+			$('#addtag-modal').modal('hide')
+		});
+
 		$('#dtBox').DateTimePicker({'dateTimeFormat': 'yyyy-MM-dd HH:mm:ss'});
 		
 		$(document).on('click', '.item-row', function() {
@@ -201,8 +227,10 @@
 		});
 
 		$('.close-btn').click(function() {
-			app.loadPage(app.lastview);
-			app.lastview = $('#mainview');
+			if(!$(this).hasClass('modal-close')) {
+				app.loadPage(app.lastview);
+				app.lastview = $('#mainview');
+			}
 		});
 	});
 	</script>
