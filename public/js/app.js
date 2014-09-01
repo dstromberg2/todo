@@ -1,6 +1,7 @@
 var app = {
 
 	lastview: $('#mainview'),
+	itemurl: '',
 	
 	// Check for empty values in required fields
 	checkFields: function(flds, errfld) {
@@ -91,12 +92,37 @@ var app = {
 		$('#item-edit-due').removeClass('error');
 	},
 
-	loadEdit: function() {
+	loadEdit: function(id) {
 
 	},
 
-	loadView: function() {
-
+	loadView: function(id) {
+		$.ajax({
+			url: app.itemurl,
+			data: {'id': id},
+			dataType: 'json',
+			type: 'GET'
+		}).done(function(data) {
+			if(data.status == 'success') {
+				$('#item-edit-btn').data('id', id);
+				$('#item-show-title').html(data.item.title);
+				$('#item-show-body').html(data.item.body);
+				$('#item-show-due').html(data.item.due);
+				if(data.item.status == '0') { 
+					$('#item-show-status-false + label').show();
+					$('#item-show-status-true + label').hide();
+				} else {
+					$('#item-show-status-false + label').hide();
+					$('#item-show-status-true + label').show();					
+				}
+				$('#item-show-author').html(data.item.user.name);
+			} else {
+				app.displayErrors($('#error-box'), data.message);
+				setTimeout(function() {
+					$('#error-box').removeClass('show');
+				}, 3000);
+			}
+		});
 	}
-	
+
 };

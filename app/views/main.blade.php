@@ -52,7 +52,7 @@
 							<div class="col-sm-8 col-xs-7">{{ $item->title }}</div>
 							<div class="col-xs-3">{{ $item->due }}</div>
 							<div class="col-sm-1 col-xs-2">
-								<input type="radio" name="status" class="inrow @if($item->status == 0)radio-false @endif" checked readonly /><label><span><span></span></span></label></div>
+								<input type="radio" class="inrow @if($item->status == 0)radio-false @endif" checked readonly /><label><span><span></span></span></label></div>
 						</div>
 						@endforeach
 					@else
@@ -108,7 +108,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3 item-label">Description</div>
-						<div class="col-md-9" id="item-show-body"></div>
+						<div class="col-lg-7 col-md-9" id="item-show-body"></div>
 					</div>
 					<div class="row">
 						<div class="col-md-3 item-label">Due By</div>
@@ -161,6 +161,7 @@
 	</div>
 	<script>
 	$(document).ready(function() {
+		app.itemurl = "{{ action('ItemController@getView') }}";
 		app.setupForm($('#user-update'), [$('#update-name'), $('#update-email')], $('#error-box'), $('#success-box'));
 		app.setupForm($('#user-update-pass'), [$('#update-pass1'), $('#update-pass2')], $('#error-box'), $('#success-box'));
 		app.setupForm($('#item-edit'), [$('#item-edit-title'), $('#item-edit-due')], $('#error-box'), $('#success-box'), function() {
@@ -170,6 +171,7 @@
 		$('#dtBox').DateTimePicker({'dateTimeFormat': 'yyyy-MM-dd HH:mm:ss'});
 		
 		$(document).on('click', '.item-row', function() {
+			app.loadView($(this).data('id'));
 			app.loadPage($('#rightview'));
 		});
 
