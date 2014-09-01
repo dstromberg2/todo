@@ -42,7 +42,7 @@ var app = {
 	},
 
 	// Default actions for form submission
-	setupForm: function(frm, flds, err, succ) {
+	setupForm: function(frm, flds, err, succ, finish) {
 		frm.submit(function(e) {
 			// Make sure the form doesn't submit, then check for empty fields
 			e.preventDefault();
@@ -54,6 +54,8 @@ var app = {
 					if(data.status == 'success') { 
 						if(data.redirect == 'true') { window.location.href = data.url; }
 						else if(typeof succ !== 'undefined') { succ.addClass('show'); }
+
+						if(typeof finish === 'function') { finish(); }
 					}
 					else { app.displayErrors(err, data.message); }
 				});

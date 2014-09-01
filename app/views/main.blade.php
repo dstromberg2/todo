@@ -6,9 +6,11 @@
 	<title>TODO</title>
 	<link type="text/css" rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
 	<link type="text/css" rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ asset('css/DateTimePicker.min.css') }}" />
 	<link type="text/css" rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/DateTimePicker.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
@@ -47,9 +49,9 @@
 					@if(count($items) > 0)
 						@foreach($items as $item)
 						<div class="row item-row">
-							<div class="col-xs-8">$item->title</div>
-							<div class="col-xs-3">$item->due</div>
-							<div class="col-xs-1">$item->status</div>
+							<div class="col-xs-8">{{ $item->title }}</div>
+							<div class="col-xs-3">{{ $item->due }}</div>
+							<div class="col-xs-1">{{ $item->status }}</div>
 						</div>
 						@endforeach
 					@else
@@ -102,8 +104,38 @@
 			</div>
 
 			<div id="topview" class="views vhide">
+				<form action="{{ action('ItemController@postEdit') }}" method="POST" id="item-edit">
+				<input type="submit" id="item-save" class="top-submit" value="SAVE" />
 				<div class="close-btn">Cancel</div>
 				<div class="container-fluid">
+					<input type="hidden" name="id" value="0" id="item-edit-id" />
+					<div class="row">
+						<div class="col-md-3 item-label">Title</div>
+						<div class="col-md-9"><input type="text" name="title" id="item-edit-title" class="login-input" /></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Description</div>
+						<div class="col-md-9"><textarea name="body" id="item-edit-body" rows="5" class="item-text"></textarea></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Due By</div>
+						<div class="col-md-9"><input type="text" name="due" id="item-edit-due" class="item-due-input" data-field="datetime" data-format="yyyy-MM-dd HH:mm:ss" readonly /></div>
+						<div id="dtBox"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Status</div>
+						<div class="col-md-9 item-radios"><input type="radio" name="status" id="item-edit-status-false" class="radio-false" value="false" checked /><label for="item-edit-status-false"><span><span></span></span>Pending</label><input type="radio" name="status" id="item-edit-status-true" value="true" /><label for="item-edit-status-true"><span><span></span></span>Completed</label></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">&nbsp;</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3"></div>
+					</div>
+				</form>
 				</div>
 			</div>
 		</div>
@@ -112,6 +144,11 @@
 	$(document).ready(function() {
 		app.setupForm($('#user-update'), [$('#update-name'), $('#update-email')], $('#error-box'), $('#success-box'));
 		app.setupForm($('#user-update-pass'), [$('#update-pass1'), $('#update-pass2')], $('#error-box'), $('#success-box'));
+		app.setupForm($('#item-edit'), [$('#item-edit-title'), $('#item-edit-due')], $('#error-box'), $('#success-box'), function() {
+			app.loadPage(app.lastview);
+			app.lastview = $('#mainview');
+		});
+		$('#dtBox').DateTimePicker({'dateTimeFormat': 'yyyy-MM-dd HH:mm:ss'});
 		
 		$('#settings-link').click(function() {
 			app.loadPage($('#leftview'));
