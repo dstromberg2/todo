@@ -48,10 +48,11 @@
 					</div>
 					@if(count($items) > 0)
 						@foreach($items as $item)
-						<div class="row item-row">
-							<div class="col-xs-8">{{ $item->title }}</div>
+						<div class="row item-row" data-id="{{ $item->id }}">
+							<div class="col-sm-8 col-xs-7">{{ $item->title }}</div>
 							<div class="col-xs-3">{{ $item->due }}</div>
-							<div class="col-xs-1">{{ $item->status }}</div>
+							<div class="col-sm-1 col-xs-2">
+								<input type="radio" name="status" class="inrow @if($item->status == 0)radio-false @endif" checked readonly /><label><span><span></span></span></label></div>
 						</div>
 						@endforeach
 					@else
@@ -99,7 +100,28 @@
 
 			<div id="rightview" class="views vhide">
 				<div class="close-btn">Close</div>
+				<div id="item-edit-btn" class="top-submit">Edit Item</div>
 				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3 item-label">Title</div>
+						<div class="col-md-9" id="item-show-title"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Description</div>
+						<div class="col-md-9" id="item-show-body"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Due By</div>
+						<div class="col-md-9" id="item-show-due"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Status</div>
+						<div class="col-md-9 item-radios"><input type="radio" id="item-show-status-false" class="radio-false" value="false" checked readonly /><label for="item-show-status-false"><span><span></span></span>Pending</label><input type="radio" id="item-show-status-true" value="true" checked readonly /><label for="item-show-status-true"><span><span></span></span>Completed</label></div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 item-label">Author</div>
+						<div class="col-md-9" id="item-show-author"></div>
+					</div>
 				</div>
 			</div>
 
@@ -132,9 +154,6 @@
 					<div class="row">
 						<div class="col-md-12">&nbsp;</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3"></div>
-					</div>
 				</form>
 				</div>
 			</div>
@@ -150,11 +169,16 @@
 		});
 		$('#dtBox').DateTimePicker({'dateTimeFormat': 'yyyy-MM-dd HH:mm:ss'});
 		
+		$(document).on('click', '.item-row', function() {
+			app.loadPage($('#rightview'));
+		});
+
 		$('#settings-link').click(function() {
 			app.loadPage($('#leftview'));
 		});
 
 		$('#new-item-btn').click(function() {
+			app.clearEdit();
 			app.loadPage($('#topview'));
 		});
 

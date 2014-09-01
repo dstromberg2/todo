@@ -79,5 +79,24 @@ var app = {
 			}
 		});
 		par.removeClass('vhide');
+	},
+
+	clearEdit: function() {
+		$('#item-edit-title').val('');
+		$('#item-edit-body').val('');
+		$('#item-edit-due').val('');
+		$('#item-edit-status-false').prop('checked', true);
+		$('#item-edit-status-true').prop('checked', false);
+		$('#item-edit-title').removeClass('error');
+		$('#item-edit-due').removeClass('error');
+	},
+
+	loadEdit: function() {
+
+	},
+
+	loadView: function() {
+
 	}
+	
 };

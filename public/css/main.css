@@ -326,6 +326,14 @@ input[type=radio] + label > span {
   	vertical-align: bottom;
 }
 
+input[type=radio].inrow {
+	width: auto;
+}
+
+input[type=radio].inrow + label > span {
+	vertical-align: middle;
+}
+
 input[type=radio]:checked.radio-false + label > span {
 	background: #030EA9;
 	border-color: #030EA9;
@@ -350,6 +358,34 @@ input[type=radio]:checked.radio-false + label > span:before {
 #item-edit > .container-fluid {
 	clear: both;
 	padding-top: 50px;
+}
+
+.item-row {
+	border-bottom: 1px solid #777;
+	cursor: pointer;
+	font-size: 11pt;
+}
+
+.item-row:hover {
+	background-color: #E4FFD5;
+}
+
+.item-row > div {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.item-row > div:first-child {
+	border-right: 1px solid #777;
+}
+
+.item-row > div:last-child {
+	border-left: 1px solid #777;
+	padding-bottom: 2px;
+}
+
+.item-row > .col-xs-3, .item-row > .col-xs-2 {
+	text-align: center;
 }
 
 @media (max-width: 768px) {
