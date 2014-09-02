@@ -1,6 +1,6 @@
 ## TODO app
 
-[![Demo](http://labs.weberish.com/todo/)](http://labs.weberish.com/todo/)
+[Demo Instance](http://labs.weberish.com/todo/)](http://labs.weberish.com/todo/)
 
 A simple TODO application example
 
